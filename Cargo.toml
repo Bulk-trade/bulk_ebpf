@@ -1,0 +1,32 @@
+[package]
+name = "bulk_book_ebpf"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "bulk_book_ebpf"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bulk_book_ebpf"
+path = "src/main.rs"
+
+[dependencies]
+rayon = "1.5"
+cranelift = "0.112.2"
+cranelift-jit = "0.112.2"
+cranelift-module = "0.112.2"
+cranelift-native = "0.112.2"
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "bulk_book_benchmarks"
+path = "benches/bulk_book_benchmarks.rs"
+harness = false
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
