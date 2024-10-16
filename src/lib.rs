@@ -7,6 +7,8 @@ pub mod memory;
 mod tests {
     use std::panic;
     use crate::memory::print_allocator_stats;
+    use crate::vm::BulkBookVM;
+    use crate::instructions::Instruction;
 
     fn run_test<T>(test: T) -> ()
     where
@@ -44,7 +46,19 @@ mod tests {
         });
     }
 
-    // Uncomment and add more tests as needed
-    // pub mod unit_tests;
-    // pub mod integration_tests;
+    #[test]
+    fn test_bulk_book_vm() {
+        run_test(|| {
+            println!("Starting BulkBookVM test");
+            let program = vec![
+                Instruction::Load(0, 100),  // Price
+                Instruction::Load(1, 10),   // Amount
+                Instruction::Load(2, 1),    // ID
+                Instruction::PlaceOrderOptimized(0, 1, 2),
+            ];
+            let mut vm = BulkBookVM::new(program, 8);  // 8 shards
+            vm.run();
+            println!("BulkBookVM test completed");
+        });
+    }
 }
